@@ -1,0 +1,21 @@
+{% extends 'main/layout.html' %}
+
+
+
+{% block content %}
+
+<main>
+    <section>
+        <div class="main-image">
+            <img src="static\main\img\Illustration.svg">
+        </div>
+        <h2>Выберите действие</h2>
+        <div class="buttons">
+            <a href="{% url 'register' %}" class="btn">Регистрация клиента</a>
+            <a href="{% url 'search' %}" class="btn">Поиск клиента</a>
+        </div>
+    </section>
+</main>
+
+
+{% endblock %}

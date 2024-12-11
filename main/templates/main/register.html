@@ -1,0 +1,118 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}Регистрация клиентов{% endblock %}
+
+{% block content %}
+
+<main>
+    <section>
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message {% if message.tags %}{{ message.tags }}{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <div>
+                <label for="name">Имя клиента:</label>
+                {{ form.name }}
+                {% if form.name.errors %}
+                    <div class="error">{{ form.name.errors.0 }}</div>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="phone">Телефон:</label>
+                {{ form.phone }}
+                {% if form.phone.errors %}
+                    <div class="error">{{ form.phone.errors.0 }}</div>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="email">Email (Необязательно):</label>
+                {{ form.email }}
+                {% if form.phone.errors %}
+                    <div class="error">{{ form.email.errors.0 }}</div>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="membership_number">Номер абонемента:</label>
+                {{ form.membership_number }}
+                {% if form.membership_number.errors %}
+                    <div class="error">{{ form.membership_number.errors.0 }}</div>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="birthdate">Дата рождения:</label>
+                {{ form.birthdate }}
+                {% if form.birthdate.errors %}
+                    <div class="error">{{ form.birthdate.errors.0 }}</div>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="membership_type">Тип абонемента:</label>
+                {{ form.membership_type }}
+                {% if form.membership_type.errors %}
+                    <div class="error">{{ form.membership_type.errors.0 }}</div>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="membership_price">Цена абонемента:</label>
+                {{ form.membership_price }}
+                {% if form.membership_price.errors %}
+                    <div class="error">{{ form.membership_price.errors.0 }}</div>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="payment_method">Способ оплаты:</label>
+                {{ form.payment_method }}
+                {% if form.payment_method.errors %}
+                    <div class="error">{{ form.payment_method.errors.0 }}</div>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="start_date">Начало действия абонемента:</label>
+                {{ form.start_date }}
+                {% if form.start_date.errors %}
+                    <div class="error">{{ form.start_date.errors.0 }}</div>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="end_date">Конец действия абонемента:</label>
+                {{ form.end_date }}
+                {% if form.end_date.errors %}
+                    <div class="error">{{ form.end_date.errors.0 }}</div>
+                {% endif %}
+            </div>
+            <input type="submit" value="Зарегистрировать">
+        </form>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2024</p>
+</footer>
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const errorField = document.querySelector('.error');
+        if (errorField) {
+            errorField.scrollIntoView({ behavior: 'smoooth', block: 'center' });
+        }
+    });
+</script>
+{% endblock %}

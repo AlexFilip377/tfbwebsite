@@ -1,0 +1,25 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}Поиск клиентов{% endblock %}
+
+{% block content %}
+
+<main>
+    <section>
+        <form method="get" action="{% url 'search' %}">
+            <label for="search">Введите имя, номер абонемента или номер телефона:</label>
+            <input type="text" id="search" name="search" required>
+            <input type="submit" value="Поиск">
+        </form>
+
+        {% if results %}
+            <ul>
+                {% for client in results %}
+                    <li>{{ client.name }} - {{ client.membership_number }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </section>
+</main>
+
+{% endblock %}

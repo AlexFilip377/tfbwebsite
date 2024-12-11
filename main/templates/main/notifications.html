@@ -1,0 +1,58 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}Уведомления{% endblock %}
+
+{% block content %}
+
+<main>
+    <section>
+        <h1>Уведомления</h1>
+                    {% for notification in notifications %}
+                        {% if not notification.is_read %}
+                            <div class="notification" id="notification-{{ notification.id }}">
+                                <p>{{ notification.message }}</p>
+                                <small>{{ notification.date_due|date:"d.m.Y" }}</small>
+                                <buttin class="mark-as-read" onclick="markAsRead({{ notification.id }})">Отметить как прочитано</buttin>
+                            </div>
+                        {% else %}
+                            <div class="notification-read" id="notification-{{  notification.id }}">
+                                <p>{{ notification.message }}</p>
+                                <small>{{ notification.date_due|date:"d.m.Y" }}</small>
+                                <span>Прочитано</span>
+                            </div>
+                        {% endif %}
+                    {% empty %}
+                        <p>Уведомлений пока нет</p>
+                    {% endfor %}
+
+                    <script>
+                        function markAsRead(notificationId) {
+                            fetch(`/mark_notification_as_read/${notificationId}/`, {
+                                method: 'POST',
+                                headers: {
+                                    'X-CSRFToken': '{{ csrf_token }}',
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({ 'notification_id': notificationId })
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.status === 'success') {
+                                    const notification = document.getElementById(`notification-${notificationId}`);
+                                    notification.innerHTML = `
+                                        <p>${notification.querySelector('p').textContent}</p>
+                                        <p>${notification.querySelectorAll('p')[1].textContent}</p>
+                                        <span>Read</span>
+                                    `;
+                                    notification.classList.remove('notification');
+                                    notification.classList.add('notification-read');
+                                } else {
+                                    console.log("Error: ", data.message);
+                                }
+                            });
+                        }
+                    </script>
+    </section>
+</main>
+
+{% endblock %}

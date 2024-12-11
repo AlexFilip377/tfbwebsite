@@ -1,0 +1,77 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}Список абонементов{% endblock %}
+
+{% block content %}
+
+<main class="membership-list-container">
+    <h2 class="membership-list-title">Список абонементов</h2>
+    <form method="get" action="">
+        <input type="text" class="search-bar" name="q" placeholder="Поиск по имени, телефону, типу абонемента..." value="{{ request.GET.q }}">
+        <input type="submit" value="Поиск">
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Имя клиента</th>
+                <th>Телефон</th>
+                <th>Email</th>
+                <th>День рождения</th>
+                <th>Номер абонемента</th>
+                <th>Тип абонемента</th>
+                <th>Стоимость</th>
+                <th>Способ оплаты</th>
+                <th>Дата начала</th>
+                <th>Дата окончания</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for membership in memberships %}
+            <tr>
+                <td>{{ membership.name }}</td>
+                <td>{{ membership.phone }}</td>
+                <td>{{ membership.email }}</td>
+                <td>{{ membership.birthdate }}</td>
+                <td>{{ membership.membership_number }}</td>
+                <td>{{ membership.membership_type }}</td>
+                <td>{{ membership.membership_price }}</td>
+                <td>{{ membership.payment_method }}</td>
+                <td>{{ membership.start_date }}</td>
+                <td>{{ membership.end_date }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="9">Абонементы не найдены</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</main>
+
+<footer>
+    <p>&copy; 2024</p>
+</footer>
+
+<script>
+
+    document.getElementById('search').addEventListener('keyup', function() {
+        let input = this.value.toLowerCase();
+        let table = document.getElementById('membershipTable');
+        let rows = table.getElementsByTagName('tr')
+
+        for (let i = 1; i < rows.length; i++) {
+            let cells = rows[i].getElementsByTagName('td');
+            let match = false
+            for (let j = 0; j < cells.length; j++) {
+                if (cells[j].textContent.toLowerCase().includes(input)) {
+                    match = true;
+                    break;
+                }
+            }
+        
+        rows[i].style.display = match ? '' : 'none';
+        }
+    })
+</script>
+{% endblock %}
